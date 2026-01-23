@@ -1,37 +1,18 @@
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { Link, Outlet } from "react-router-dom";
 
 function Dashboard() {
-  const { user, login, logout } = useContext(AuthContext);
-  const { theme, toggleTheme } = useContext(ThemeContext);
-
   return (
-    <div
-      style={{
-        background: theme === "dark" ? "#222" : "#f4f4f4",
-        color: theme === "dark" ? "#fff" : "#000",
-        height: "100vh",
-        padding: "20px",
-      }}
-    >
-      <h1>Multiple Context Demo</h1>
+    <>
+      <h1>Dashboard</h1>
 
-      <h2>Theme: {theme}</h2>
-      <button onClick={toggleTheme}>Toggle Theme</button>
+      <Link to="profile">Profile</Link> |{" "}
+      <Link to="settings">Settings</Link>
 
       <hr />
 
-      {user ? (
-        <>
-          <h2>Welcome {user.name}</h2>
-          <p>Role: {user.role}</p>
-          <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <button onClick={login}>Login</button>
-      )}
-    </div>
+      {/* 🔽 Child routes render here */}
+      <Outlet />
+    </>
   );
 }
 
