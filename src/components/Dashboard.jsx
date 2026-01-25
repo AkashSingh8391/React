@@ -6,7 +6,7 @@ function Dashboard() {
       <h1>Dashboard</h1>
 
       <Link to="profile">Profile</Link> |{" "}
-      <Link to="settings">Settings</Link>
+      <Link to="setting">Setting</Link>
 
       <hr />
 

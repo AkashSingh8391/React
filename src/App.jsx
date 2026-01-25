@@ -1,39 +1,101 @@
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-
-import Home from "./components/Home";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import Dashboard from "./components/Dashboard";
-import Profile from "./components/Profile";
-import Setting from "./components/Setting";
-import User from "./components/User";
+import React from "react";
+import { useForm } from "react-hook-form";
+import "./form.css";
 
 function App() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm({
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  // ✅ onSubmit function
+  const onSubmit = async (data) => {
+    console.log("Form Data:", data);
+
+    // simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    alert("Form Submitted Successfully 🎉");
+
+    reset(); // clear form after submit
+  };
+
   return (
-    <>
-      <Navbar />
+    <div className="container">
+      <h2>Register Form</h2>
 
-      <Routes>
-        {/* Normal Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {/* Username */}
+        <div className="field">
+          <label>Username</label>
+          <input
+            type="text"
+            className={errors.username ? "error-input" : ""}
+            {...register("username", {
+              required: "Username is required",
+              minLength: {
+                value: 3,
+                message: "Minimum 3 characters required",
+              },
+            })}
+          />
+          {errors.username && (
+            <p className="error-text">{errors.username.message}</p>
+          )}
+        </div>
 
-        {/* Dynamic Route */}
-        <Route path="/user/:id" element={<User />} />
+        {/* Email */}
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="email"
+            className={errors.email ? "error-input" : ""}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email format",
+              },
+            })}
+          />
+          {errors.email && (
+            <p className="error-text">{errors.email.message}</p>
+          )}
+        </div>
 
-        {/* Nested Routes */}
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<h3>Welcome to Dashboard</h3>} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="setting" element={<Setting />} />
-        </Route>
+        {/* Password */}
+        <div className="field">
+          <label>Password</label>
+          <input
+            type="password"
+            className={errors.password ? "error-input" : ""}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Minimum 6 characters required",
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="error-text">{errors.password.message}</p>
+          )}
+        </div>
 
-        {/* 404 */}
-        <Route path="*" element={<h2>404 Page Not Found</h2>} />
-      </Routes>
-    </>
+        {/* Submit Button */}
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Register"}
+        </button>
+      </form>
+    </div>
   );
 }
 
