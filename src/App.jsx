@@ -1,31 +1,19 @@
-import React, { useState } from "react";
-import Child from "./Memo/Child";
+import { useState, useCallback } from "react";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [dark, setDark] = useState(false);
+  const [a, setA] = useState(1);
+  const [b, setB] = useState(2);
 
-  // ❌ har render pe NAYA function banega
-  const increment = () => {
-    setCount(count + 1);
-  };
-
-  // ❌ ye bhi har render pe naya function
-  const logValue = () => {
-    console.log("Current Count:", count);
-  };
-
-  console.log("👨 Parent Rendered");
+  const sum = useCallback(() => {
+    return a + b;
+  }, [a,b]); // ❌ empty dependency
 
   return (
-    <div style={{ background: dark ? "#222" : "#eee", padding: "20px" }}>
-      <h2>Count: {count}</h2>
+    <div>
+      <h2>Sum: {sum()}</h2>
 
-      <button onClick={() => setDark(!dark)}>
-        Toggle Theme
-      </button>
-
-      <Child onIncrement={increment} onLog={logValue} />
+      <button onClick={() => setA(a + 1)}>Increase A</button>
+      <button onClick={() => setB(b + 1)}>Increase B</button>
     </div>
   );
 }
