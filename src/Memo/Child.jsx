@@ -1,9 +1,14 @@
 import React from "react";
 
+const Child = React.memo(({ onIncrement, onLog }) => {
+  console.log("👶 Child Rendered");
 
-const Child = React.memo(({ onClick }) => {
-  console.log("Child rendered");
-  return <button onClick={onClick}>Click</button>;
+  return (
+    <div>
+      <button onClick={onIncrement}>Increment</button>
+      <button onClick={onLog}>Log</button>
+    </div>
+  );
 });
 
 export default Child;
