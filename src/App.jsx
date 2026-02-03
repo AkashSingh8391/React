@@ -1,13 +1,11 @@
-import Counter from "./Redux/Counter";
-import UseRefAllInOne from "./Redux/useRefAllInOne";
+
+import UseMem from "./Memo/useMem";
 
 function App() {
   return (
     <div>
-      <Counter />
-
-      <UseRefAllInOne/>
-    </div>
+      <UseMem/>
+       </div>
   );
 }
 
